@@ -21,6 +21,14 @@ if not exist "%SPARK_HOME%/bin/spark-submit.cmd" (
 )
 exit /b 0
 
+:checkJava
+if [ -z $(which java) ]; then
+    echo "Java is not installed. Please install Java first before continuing with Sparkling Water"
+    exit -1
+fi
+}
+
+
 :checkSparkVersion
 for /f "delims=" %%i in ( 'CMD /C %SPARK_HOME%/bin/spark-submit.cmd --version 2^>^&1 1^>NUL ^| findstr /v "Scala" ^| findstr "version" ') do set linewithversion=%%i
 set INSTALLED_SPARK_VERSION=%linewithversion:~-5%
